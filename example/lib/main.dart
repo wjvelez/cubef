@@ -72,7 +72,7 @@ class _MyHomePageState extends State<MyHomePage> {
             width: _width,
             height: _height,
           ),
-          const SizedBox(height: 32),
+          const SizedBox(height: 62),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Row(

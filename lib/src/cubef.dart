@@ -70,15 +70,21 @@ class CubefState extends State<Cubef> with SingleTickerProviderStateMixin {
   void initStackChildrenTop(Widget child) {
     _stackChildren = <Widget>[
       Transform(
-          alignment: FractionalOffset.center,
-          transform: Matrix4.identity()
-            ..setEntry(3, 2, 0.001) // 0.001 is thin air
-            ..translate(0.0, 0.0, -(widget.height / 2)),
-          child: Container(
-              child: Center(
+        alignment: FractionalOffset.center,
+        transform: Matrix4.identity()
+          ..setEntry(3, 2, 0.001) // 0.001 is thin air
+          ..translate(
+            0.0,
+            0.0,
+            -(widget.height / 2),
+          ),
+        child: Container(
+          child: Center(
             child: child,
             key: GlobalKey(),
-          ))),
+          ),
+        ),
+      ),
     ];
   }
 
@@ -90,7 +96,11 @@ class CubefState extends State<Cubef> with SingleTickerProviderStateMixin {
         alignment: FractionalOffset.center,
         transform: Matrix4.identity()
           ..setEntry(3, 2, 0.001)
-          ..translate(0.0, -((widget.height / 2) * math.cos(_animation.value)), ((-widget.height / 2) * math.sin(_animation.value)))
+          ..translate(
+            0.0,
+            -((widget.height / 2) * math.cos(_animation.value)),
+            ((-widget.height / 2) * math.sin(_animation.value)),
+          )
           ..rotateX(-(math.pi / 2) + _animation.value),
         child: Container(
             child: Center(
@@ -102,7 +112,11 @@ class CubefState extends State<Cubef> with SingleTickerProviderStateMixin {
         alignment: FractionalOffset.center,
         transform: Matrix4.identity()
           ..setEntry(3, 2, 0.001) // 0.001 is thin air
-          ..translate(0.0, ((widget.height / 2) * math.sin(_animation.value)), -((widget.height / 2) * math.cos(_animation.value)))
+          ..translate(
+            0.0,
+            ((widget.height / 2) * math.sin(_animation.value)),
+            -((widget.height / 2) * math.cos(_animation.value)),
+          )
           ..rotateX(_animation.value),
         child: Container(
             child: Center(
@@ -121,7 +135,11 @@ class CubefState extends State<Cubef> with SingleTickerProviderStateMixin {
         alignment: FractionalOffset.center,
         transform: Matrix4.identity()
           ..setEntry(3, 2, 0.001)
-          ..translate(-((widget.width / 2) * math.cos(_animation.value)), 0.0, ((-widget.height / 2) * math.sin(_animation.value)))
+          ..translate(
+            ((widget.width / 2) * math.cos(_animation.value)),
+            0.0,
+            -((widget.height / 2) * math.sin(_animation.value)),
+          )
           ..rotateY(-(math.pi / 2) + _animation.value),
         child: Container(
             child: Center(
@@ -131,10 +149,13 @@ class CubefState extends State<Cubef> with SingleTickerProviderStateMixin {
       ),
       Transform(
         alignment: FractionalOffset.center,
-        origin: Offset(0.01, 0.0),
         transform: Matrix4.identity()
           ..setEntry(3, 2, 0.001) // 0.001 is thin air
-          ..translate(((widget.width / 2) * math.sin(_animation.value)), 0.0, -((widget.height / 2) * math.cos(_animation.value)))
+          ..translate(
+            -((widget.width / 2) * math.sin(_animation.value)),
+            0.0,
+            ((-widget.height / 2) * math.cos(_animation.value)),
+          )
           ..rotateY(_animation.value),
         child: Container(
             child: Center(
@@ -163,31 +184,14 @@ class CubefState extends State<Cubef> with SingleTickerProviderStateMixin {
       setState(() {
         switch (_lastAction) {
           case Action.down:
-            {
-              initStackChildrenRollUpDown();
-            }
-            break;
-
           case Action.up:
-            {
-              initStackChildrenRollUpDown();
-            }
+            initStackChildrenRollUpDown();
             break;
-
           case Action.left:
-            {
-              initStackChildrenRollLeftRight();
-            }
-            break;
-
           case Action.right:
-            {
-              initStackChildrenRollLeftRight();
-            }
+            initStackChildrenRollLeftRight();
             break;
-
           case Action.none:
-            {}
             break;
         }
 
@@ -237,7 +241,7 @@ class CubefState extends State<Cubef> with SingleTickerProviderStateMixin {
   }
 
   /// Start roll-right cube animation
-  void rollRight() {
+  void rollLeft() {
     _topWidget = _horizontalIndex[0];
     _horizontalIndex = ArrayUtils.moveLeft(_horizontalIndex);
     _verticalIndex[0] = _horizontalIndex[0];
@@ -251,13 +255,13 @@ class CubefState extends State<Cubef> with SingleTickerProviderStateMixin {
   }
 
   /// Start roll-left cube animation
-  void rollLeft() {
+  void rollRight() {
     _backWidget = _horizontalIndex[0];
     _horizontalIndex = ArrayUtils.moveRight(_horizontalIndex);
     _verticalIndex[0] = _horizontalIndex[0];
     _verticalIndex[2] = _horizontalIndex[2];
     _topWidget = _horizontalIndex[0];
-    _lastAction = Action.left;
+    _lastAction = Action.right;
     _tween.begin = (math.pi / 2);
     _tween.end = 0.0;
     _controller.reset();
